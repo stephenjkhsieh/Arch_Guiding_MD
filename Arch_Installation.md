@@ -149,8 +149,46 @@ swapon /dev/{swap_partition_name}    #掛載swap分區
 #@@@
 ```
 
+### 掛載磁碟分區
+如果使用btrfs:
+```bash= #%%%Q: {"filesystem":"btrfs"}
+lsblk
+#掛載root與boot
+mkdir /mnt/btrfs_root  #創建資料夾
+mkdir /mnt/root
+mount /dev/{root_partition_name} /mnt/btrfs_root
+btrfs subvolume create /mnt/btrfs_root/@  #建立子捲
+mount /dev/{root_partition_name} -o subvol=@ /mnt/root #掛載
+mkdir /mnt/root/boot
+mount /dev/{efi_partition_name} /mnt/root/boot    #EFI分區掛載到/mnt
+
+##掛載home
+mkdir /mnt/btrfs_home
+mount /dev/{home_partition_name} /mnt/btrfs_home
+btrfs subvolume create /mnt/btrfs_home/@home
+mkdir /mnt/root/home
+mount /dev/{home_partition_name} -o subvol=@home /mnt/root/home
+
+#掛載swap
+swapon /dev/{swap_partition_name}    #掛載swap分區
+```
+如果使用ext4:
+```bash= #%%%Q: {"filesystem":"btrfs"}
+lsblk
+#創建資料夾
+mkdir /mnt/root
+#掛載
+mount /dev/{root_partition} /mnt/root
+mkdir /mnt/root/boot
+mount /dev/{efi_partition} /mnt/root/boot    #EFI分區掛載到/mnt/boot
+mkdir /mnt/root/home
+mount /dev/{home_partition} /mnt/root/home
+#掛載swap
+swapon /dev/{swap_partition}    #掛載swap分區
+```
+
 <!--
-#%%%Q:c {}
+#%%%Q: {}
 df -h
 echo "check it!"
 #@@@
