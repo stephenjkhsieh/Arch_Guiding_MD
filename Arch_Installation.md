@@ -143,48 +143,63 @@ mkfs.ext4 -f /dev/{root_partition_name}    #格式化root分區成ext4
 #%%%Q:c {"filesystem":"ext4", "home_partition_name":".+"}
 mkfs.ext4 -f /dev/{home_partition_name}    #格式化home分區成ext4
 #@@@
-
-#%%%Q:c {"swap_partition_name":".+"}
-swapon /dev/{swap_partition_name}    #掛載swap分區
-#@@@
 ```
 
 ### 掛載磁碟分區
 如果使用btrfs:
-```bash= #%%%Q: {"filesystem":"btrfs"}
+```bash= 
 lsblk
-#掛載root與boot
+#掛載root
+#%%%Q: {"filesystem":"btrfs", "root_partition_name":".+"}
 mkdir /mnt/btrfs_root  #創建資料夾
 mkdir /mnt/root
 mount /dev/{root_partition_name} /mnt/btrfs_root
 btrfs subvolume create /mnt/btrfs_root/@  #建立子捲
 mount /dev/{root_partition_name} -o subvol=@ /mnt/root #掛載
+#掛載boot
+#%%%Q: {"filesystem":"btrfs", "efi_partition_name":".+"}
 mkdir /mnt/root/boot
 mount /dev/{efi_partition_name} /mnt/root/boot    #EFI分區掛載到/mnt
+#@@@
 
 ##掛載home
+#%%%Q:c {"filesystem":"btrfs", "home_partition_name":".+"}
 mkdir /mnt/btrfs_home
 mount /dev/{home_partition_name} /mnt/btrfs_home
 btrfs subvolume create /mnt/btrfs_home/@home
 mkdir /mnt/root/home
 mount /dev/{home_partition_name} -o subvol=@home /mnt/root/home
+#@@@
 
 #掛載swap
+#%%%Q:c {"filesystem":"btrfs", "swap_partition_name":".+"}
 swapon /dev/{swap_partition_name}    #掛載swap分區
+#@@@
 ```
+
 如果使用ext4:
-```bash= #%%%Q: {"filesystem":"btrfs"}
+```bash= 
 lsblk
-#創建資料夾
+#掛載root
+#%%%Q: {"filesystem":"ext4", "root_partition_name":".+"}
 mkdir /mnt/root
-#掛載
 mount /dev/{root_partition_name} /mnt/root
+#@@@
+
+#%%%Q: {"filesystem":"ext4", "efi_partition_name":".+"}
 mkdir /mnt/root/boot
 mount /dev/{efi_partition_name} /mnt/root/boot    #EFI分區掛載到/mnt/boot
+#@@@
+
+#%%%Q: {"filesystem":"ext4", "home_partition_name":".+"}
 mkdir /mnt/root/home
 mount /dev/{home_partition_name} /mnt/root/home
+#@@@
+
 #掛載swap
+#%%%Q:c {"filesystem":"ext4", "swap_partition_name":".+"}
 swapon /dev/{swap_partition_name}    #掛載swap分區
+#@@@
 ```
 
 <!--
