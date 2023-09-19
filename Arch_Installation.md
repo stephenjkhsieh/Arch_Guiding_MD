@@ -566,7 +566,36 @@ exit
 #%Q:n {"step":"TTY user"}
 -->
 
-
+### Temp
+```bash= #%%Q: {}
+yay -S sddm                   #sddm DE launcher
+sudo systemctl enable sddm.service    #啟動sddm DE登錄引導
+yay -S i3-wm
+# tool bar
+sudo pacman -S polybar
+# application menu
+sudo pacman -S rofi
+# Network Manager小圖示
+sudo pacman -S network-manager-applet
+# 開起.desktop檔，用於設定開機自啓動
+sudo pacman -S dex
+# 雙螢幕
+sudo pacman -S xrandr arandr autorandr
+# 桌面背景
+sudo pacman -S nitrogen
+# 合成器
+sudo pacman -S picom
+# sudo in GUI(需要root權限的GUI軟體需要)
+yay -S polkit-dumb-agent-git
+# 終端
+sudo pacman -S alacritty
+# 鎖屏
+sudo pacman -S i3lock-color xidlehook
+# 螢幕亮度
+yay -S brightnessctl
+# 音量
+sudo pacman -S pavucontrol
+```
 
 <!--
 #@
