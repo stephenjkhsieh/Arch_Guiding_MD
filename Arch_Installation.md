@@ -178,13 +178,13 @@ lsblk
 #創建資料夾
 mkdir /mnt/root
 #掛載
-mount /dev/{root_partition} /mnt/root
+mount /dev/{root_partition_name} /mnt/root
 mkdir /mnt/root/boot
-mount /dev/{efi_partition} /mnt/root/boot    #EFI分區掛載到/mnt/boot
+mount /dev/{efi_partition_name} /mnt/root/boot    #EFI分區掛載到/mnt/boot
 mkdir /mnt/root/home
-mount /dev/{home_partition} /mnt/root/home
+mount /dev/{home_partition_name} /mnt/root/home
 #掛載swap
-swapon /dev/{swap_partition}    #掛載swap分區
+swapon /dev/{swap_partition_name}    #掛載swap分區
 ```
 
 <!--
