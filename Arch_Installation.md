@@ -23,7 +23,7 @@
 >[name=Stephen JK Hsieh][name=Axelisme]
 
 <!--
-#%A:f {"step":["Live USB","Live USB_chroot","TTY root","TTY use"]} #@
+#%A:f {"step":["Live USB","Live USB_chroot","TTY root","TTY user"]} #@
 -->
 
 ## Arch 安裝I  （Live USB）
