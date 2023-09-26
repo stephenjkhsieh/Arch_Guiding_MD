@@ -12,7 +12,7 @@
 >#%：起始token
 >[動作]：增A，刪D，改M，查Q
 >[特殊描述]：
->　　A: m多選，s不詢問用戶
+>　　A: m多選，s不詢問用戶，f強制複寫
 >　　Q: n此層不執行，c需用戶確認才執行，or多條件
 >[字典]：狀態以字典結構記錄
 >[指令]：reader會執行[指令]的內容
@@ -30,7 +30,6 @@
 <!--
 #%Q:n {"step":"Live USB"}
 -->
-
 ### 調tty字體大小
 <!--
 #%%A {"word_size":["big","small"]} #@@
@@ -70,21 +69,16 @@ timedatectl set-ntp true
 ```
 
 <!--
-#%%A: {"Process_partition_and_mount":["False", "True"]} #@@
--->
-
-<!--
-#%%Q:n {"Process_partition_and_mount":"True"}
+#%%A:m {"Process_partition_format_mount":["Partition", "Format", "Mount"]} #@@
 -->
 ### 劃分磁碟分區
 <!--
+#%%Q:n {"Process_partition_format_mount":"Partition"}
 #%%%Q {}
 lsblk
 #@@@
-
 #%%%A {"Name_of_disk1":".+", "Name_of_disk2":".*"} #@@@
 -->
-
 ```bash=
 lsblk    #顯示磁碟分區狀態
 
@@ -96,7 +90,6 @@ gdisk /dev/{Name_of_disk1}    #磁碟格式工具，x專家模式後，z刪除�
 cfdisk /dev/{Name_of_disk1}    #圖形化分割磁碟
 #@@@
 ```
-
 <!--
 #%%%Q:c {"Name_of_disk2":".+"}
 gdisk /dev/{Name_of_disk2}    #磁碟格式工具，x專家模式後，z刪除所有分區
@@ -105,20 +98,23 @@ gdisk /dev/{Name_of_disk2}    #磁碟格式工具，x專家模式後，z刪除�
 #%%%Q:c {"Name_of_disk2":".+"}
 cfdisk /dev/{Name_of_disk2}    #圖形化分割磁碟
 #@@@
+#@@
 -->
 
-### 格式化磁碟分區
 <!--
-#%%%Q {}
+#%%Q:vor {"Process_partition_format_mount":["Format", "Mount"]}
 lsblk
-#@@@
 #%%%A {"efi_partition_name":".+"} #@@@
 #%%%A {"swap_partition_name":".*"} #@@@
 #%%%A {"root_partition_name":".+"} #@@@
 #%%%A {"home_partition_name":".*"} #@@@
 #%%%A {"filesystem":["btrfs","ext4"]} #@@@
+#@@
 -->
-
+### 格式化磁碟分區
+<!--
+#%%Q:n {"Process_partition_format_mount":"Format"}
+-->
 ```bash=
 #%%%Q:c {"efi_partition_name":".+"}
 mkfs.fat -F 32 /dev/{efi_partition_name}    #EFI分區格式化成Fat32
@@ -144,13 +140,19 @@ mkfs.ext4 -f /dev/{root_partition_name}    #格式化root分區成ext4
 mkfs.ext4 -f /dev/{home_partition_name}    #格式化home分區成ext4
 #@@@
 ```
+<!--
+#@@
+-->
 
 ### 掛載磁碟分區
+<!--
+#%%Q:n {"Process_partition_format_mount":"Mount"}
+-->
 如果使用btrfs:
 ```bash= 
 lsblk
 #掛載root
-#%%%Q: {"filesystem":"btrfs", "root_partition_name":".+"}
+#%%%Q {"filesystem":"btrfs", "root_partition_name":".+"}
 mkdir /mnt/btrfs_root  #創建資料夾
 mkdir /mnt/root
 mount /dev/{root_partition_name} /mnt/btrfs_root
@@ -159,23 +161,18 @@ mount /dev/{root_partition_name} -o subvol=@ /mnt/root #掛載
 #@@@
 
 #掛載boot
-#%%%Q: {"filesystem":"btrfs", "efi_partition_name":".+"}
+#%%%Q {"filesystem":"btrfs", "efi_partition_name":".+"}
 mkdir /mnt/root/boot
 mount /dev/{efi_partition_name} /mnt/root/boot    #EFI分區掛載到/mnt
 #@@@
 
 ##掛載home
-#%%%Q: {"filesystem":"btrfs", "home_partition_name":".+"}
+#%%%Q {"filesystem":"btrfs", "home_partition_name":".+"}
 mkdir /mnt/btrfs_home
 mount /dev/{home_partition_name} /mnt/btrfs_home
 btrfs subvolume create /mnt/btrfs_home/@home
 mkdir /mnt/root/home
 mount /dev/{home_partition_name} -o subvol=@home /mnt/root/home
-#@@@
-
-#掛載swap
-#%%%Q: {"filesystem":"btrfs", "swap_partition_name":".+"}
-swapon /dev/{swap_partition_name}    #掛載swap分區
 #@@@
 ```
 
@@ -183,37 +180,33 @@ swapon /dev/{swap_partition_name}    #掛載swap分區
 ```bash= 
 lsblk
 #掛載root
-#%%%Q: {"filesystem":"ext4", "root_partition_name":".+"}
+#%%%Q {"filesystem":"ext4", "root_partition_name":".+"}
 mkdir /mnt/root
 mount /dev/{root_partition_name} /mnt/root
 #@@@
 
 #掛載boot
-#%%%Q: {"filesystem":"ext4", "efi_partition_name":".+"}
+#%%%Q {"filesystem":"ext4", "efi_partition_name":".+"}
 mkdir /mnt/root/boot
 mount /dev/{efi_partition_name} /mnt/root/boot    #EFI分區掛載到/mnt/boot
 #@@@
 
 #掛載home
-#%%%Q: {"filesystem":"ext4", "home_partition_name":".+"}
+#%%%Q {"filesystem":"ext4", "home_partition_name":".+"}
 mkdir /mnt/root/home
 mount /dev/{home_partition_name} /mnt/root/home
 #@@@
-
-#掛載swap
-#%%%Q: {"filesystem":"ext4", "swap_partition_name":".+"}
-swapon /dev/{swap_partition_name}    #掛載swap分區
-#@@@
 ```
 
+掛載swap
+```bash= #%%%Q {"swap_partition_name":".+"}
+swapon /dev/{swap_partition_name}    #掛載swap分區
+```
 <!--
-#%%%Q: {}
+#@@
+#%%Q {}
 df -h
 echo "check it!"
-#@@@
--->
-
-<!--
 #@@
 -->
 
@@ -227,7 +220,7 @@ pacstrap /mnt/root {CPU}-ucode   #安裝微碼
 ```
 
 ### 設定開機引導文件
-```bash= #%%Q
+```bash= #%%Q {}
 genfstab -U /mnt/root >> /mnt/root/etc/fstab    #Fstab引導開機系統掛載
 # if use btrfs, then
 nano /mnt/root/etc/fstab
@@ -235,7 +228,6 @@ nano /mnt/root/etc/fstab
 # relatime改成noatime
 # 去除subvolid
 ```
-
 <!--
 #@
 -->
@@ -244,7 +236,6 @@ nano /mnt/root/etc/fstab
 <!--
 #%Q:n {"step":"Live USB_chroot"}
 -->
-
 ### 改變root位置
 ```bash=
 arch-chroot /mnt/root          #把新裝的系統掛為root
@@ -253,7 +244,8 @@ arch-chroot /mnt/root          #把新裝的系統掛為root
 ### 必要軟體
 ```bash= #%%Q {}
 pacman -S vi vim neovim nano          #基礎文字編輯
-pacman -S networkmanager dnsmasq net-tools iw       #網路管理
+pacman -S networkmanager dnsmasq net-tools iw wireless_tools       #網路管理
+pacman -S usbutils    #usb硬體管理
 pacman -S bash-completion      #bash自動補字
 pacman -S terminus-font        #tty字體
 ```
@@ -287,7 +279,6 @@ passwd
 ```bash= #%%Q {}
 pacman -S grub efibootmgr           #Grub
 grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot
-#
 # if use grub-btrfs, it is recommend to read:
 # https://github.com/Antynea/grub-btrfs/blob/master/initramfs/readme.md
 #%%%Q {"filesystem":"btrfs"}
@@ -297,14 +288,12 @@ systemctl enable grub-btrfsd
 
 cp /etc/default/grub /etc/default/grub.backup
 ```
-
 <!--
 #%%Q {}
 sed -Ei 's/^#?(GRUB_TIMEOUT)=[0-9]+$/\1=1/1' /etc/default/grub
 sed -Ei 's/^(GRUB_CMDLINE_LINUX_DEFAULT)="(.*) quiet (.*)"$/\1="\2 nowatchdog \3"/1' /etc/default/grub
 #@@
 -->
-
 ```bash= #%%Q {}
 nano /etc/default/grub
 #TIMEOUT改1，GRUB_CMDLINE_LINUX_DEFAULT改"... nowatchdog ..."，並去除quiet
@@ -317,12 +306,10 @@ grub-mkconfig -o /boot/grub/grub.cfg
 systemctl enable NetworkManager    #啟動網路服務
 systemctl enable fstrim.timer      #照顧SSD硬碟
 ```
-
 ### 離開chroot
 ```bash= #%%Q {}
 exit    #離開chroot
 ```
-
 
 ### 關閉電腦
 ```bash=
@@ -331,7 +318,6 @@ umount -R /mnt/btrfs_root
 umount -R /mnt/btrfs_home
 shutdown now 
 ```
-
 <!--
 #@
 -->
@@ -340,7 +326,6 @@ shutdown now
 <!--
 #%Q:n {"step":"TTY root"}
 -->
-
 ### 調tty字體大小
 <!--
 #%%A {"word_size":["big","small"]} #@@
@@ -361,7 +346,7 @@ nmtui    #進入networkmanager TUI
 ```
 
 ### pacman 設定
-```bash= #%%Q {}
+```bash= #%%Q:c {}
 cp /etc/pacman.conf /etc/pacman.conf.backup
 ```
 <!--
@@ -400,7 +385,7 @@ nano /etc/makepkg.conf    #設 MAKEFLAGS="-j$(nproc)"
 ### 排序mirror list
 請參考 https://wiki.archlinux.org/title/mirrors
 mirror可從 https://archlinux.org/mirrorlist/ 獲得
-```bash= #%%Q {}
+```bash= #%%Q:c {}
 pacman -S pacman-contrib         #rankmirrors command
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
 echo '
@@ -432,16 +417,6 @@ pacman -S sof-firmware                 #新型音效卡卡driver
 pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji    #字體
 pacman -S wget openssh git man         #其他 （wget URL下載、ssh通訊協定、git、man顯示指令說明）
 
-# yay
-git clone https://aur.archlinux.org/yay.git ~/yay
-cd ~/yay
-makepkg -si
-cd ~
-yay -Y --combinedupgrade --batchinstall --devel --save
-yay --noeditmenu --nodiffmenu --save
-yay -Y --gendb
-rm -rf ~/yay
-
 #%%%Q {"CPU":"intel"}
 pacman -S intel-media-driver vulkan-intel    #Intel GPU硬件視頻加速、3D渲染加速（只適用Intel）
 #@@@
@@ -449,15 +424,13 @@ pacman -S intel-media-driver vulkan-intel    #Intel GPU硬件視頻加速、3D�
 pacman -S libva-mesa-driver mesa-vdpau xf86-video-amdgpu vulkan-radeon    #AMD GPU硬件視頻加速、3D渲染加速（只適用AMD）
 #@@@
 ```
-
 <!--
-#%%Q {} 
+#%%Q:c {} 
 cp /etc/mkinitcpio.conf /etc/mkinitcpio.conf.backup 
 #@@
 -->
 
 ### btrfs相關
-
 #### btrfs 內核HOOKS設定
 <!--
 #%%Q {"filesystem":"btrfs"}
@@ -471,7 +444,7 @@ mkinitcpio -p {kernel}
 ```
 
 #### 掛載外部btrfs硬碟的預設參數
-```bash= #%%Q {"filesystem":"btrfs"}
+```bash= #%%Q:c {"filesystem":"btrfs"}
 echo '
 [defaults]
 btrfs_defaults=noatime,space_cache=v2,compress=zstd
@@ -486,7 +459,7 @@ btrfs_allow=noatime,space_cache,compress,compress-force,datacow,nodatacow,datasu
 
 #### Intel顯卡設定(if use Intel card)
 相關資訊請看 https://wiki.archlinux.org/title/Intel_graphics
-```bash= #%%Q:kor {"CPU":"intel", "GPU":"intel"} 
+```bash= #%%Q:c,kor {"CPU":"intel", "GPU":"intel"} 
 echo "\
 options i915 enable_guc=3   #硬體加速
 options i915 enable_fbc=1   #幀緩沖壓縮
@@ -550,7 +523,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 <!--
 #%%A {"nvidia-power-save":["False", "True"]} #@@
 -->
-```bash= #%%Q {"GPU": "nvidia"} 
+```bash= #%%Q:c {"GPU": "nvidia"} 
 # improve performanace
 echo '
 options nvidia-drm modeset=1
@@ -558,7 +531,7 @@ options nvidia NVreg_UsePageAttributeTable=1
 ' | tee -a /etc/modprobe.d/nvidia.conf
 
 # 筆電顯卡省電設定
-#%%%Q {"nvidia-power-save":"True"} 
+#%%%Q:c {"nvidia-power-save":"True"} 
 echo '
 options nvidia NVreg_DynamicPowerManagement=0x02
 ' | tee -a /etc/modprobe.d/nvidia.conf
@@ -589,7 +562,7 @@ nano /etc/pacman.d/hooks/nvidia.hook
 ```
 
 ### 創建Update-grub指令
-```bash= #%%Q {}
+```bash= #%%Q:c {}
 echo '
 #!/bin/sh
 set -e
@@ -613,7 +586,6 @@ visudo    #編輯群組權限（取消註解wheel:(ALL) ALL）
 ```bash=
 exit
 ```
-
 <!--
 #@
 -->
@@ -622,38 +594,17 @@ exit
 <!--
 #%Q:n {"step":"TTY user"}
 -->
-
-### Temp
+### Yay AUR包的管理器
 ```bash= #%%Q: {}
-yay -S sddm                   #sddm DE launcher
-sudo systemctl enable sddm.service    #啟動sddm DE登錄引導
-yay -S i3-wm
-# tool bar
-sudo pacman -S polybar
-# application menu
-sudo pacman -S rofi
-# Network Manager小圖示
-sudo pacman -S network-manager-applet
-# 開起.desktop檔，用於設定開機自啓動
-sudo pacman -S dex
-# 雙螢幕
-sudo pacman -S xrandr arandr autorandr
-# 桌面背景
-sudo pacman -S nitrogen
-# 合成器
-sudo pacman -S picom
-# sudo in GUI(需要root權限的GUI軟體需要)
-yay -S polkit-dumb-agent-git
-# 終端
-sudo pacman -S alacritty
-# 鎖屏
-sudo pacman -S i3lock-color xidlehook
-# 螢幕亮度
-yay -S brightnessctl
-# 音量
-sudo pacman -S pavucontrol
+git clone https://aur.archlinux.org/yay.git ~/yay
+cd ~/yay
+makepkg -si
+cd ~
+yay -Y --combinedupgrade --batchinstall --devel --save
+yay --noeditmenu --nodiffmenu --save
+yay -Y --gendb
+rm -rf ~/yay
 ```
-
 <!--
 #@
 -->
