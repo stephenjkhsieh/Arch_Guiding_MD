@@ -1,32 +1,15 @@
 # Arch software list
 ###### tags: `Linux` `Arch`
-
->Arch linux 可讀式安裝腳本,搭配Axel的installer實現自動安裝。
->針對installer的special token: #% 和 #@ 和 {}（%和@的數量代表第幾層。若指令區有{'key'}，則填入用戶'key'方面的資訊）
->
->例子：
->#%[動作]:[特殊描述1]?,[特殊描述2]? [字典]
->[指令]
->#@
->
->#%：起始token
->[動作]：增A，刪D，改M，查Q
->[特殊描述]：
->　　A: m多選，s不詢問用戶，f強制複寫，c需用戶確認才執行，d與資料庫斷開不在{}填入資訊
->　　Q: n此層不執行，c需用戶確認才執行，kor多條件key，vor多條件value，d與資料庫斷開不在{}填入資訊
->[字典]：狀態以字典結構記錄
->[指令]：reader會執行[指令]的內容
->#@：終止token
->
->reader prepository:
->https://github.com/Axelisme/Arch_Setup.git
->[name=Stephen JK Hsieh][name=Axelisme]
+> Arch linux 可讀式腳本,可以搭配Axelisme的[MD_Executor](https://github.com/Axelisme/MD_Executor.git) 實現自動安裝與設定。  
+> Github: [Arch_Guiding_MD](https://github.com/stephenjkhsieh/Arch_Guiding_MD)  
+> [name=Stephen JK Hsieh][name=Axelisme]
 
 ## GUI desktop environment (DE) 相關
 ### GUI protocol
 #### X11
 <!--
 #%A:m {"GUI_protocol":["x11", "wayland"]} #@
+#%A {"GPU":["nvidia", "amd", "intel"]} #@
 -->
 ```bash= #%Q {"GUI_protocol":"x11"}
 # X11 GUI protocol
@@ -37,7 +20,7 @@ yay -S xorg-server
 # Wayland GUI protocol
 yay -S qt5-wayland qt6-wayland xorg-xwayland
 # if use Nvidia GPU with Wayland
-#%%Q {"GPU":"nvdia"}
+#%%Q {"GPU":"nvidia"}
 echo "GBM_BACKEND=nvidia-drm
 __GLX_VENDOR_LIBRARY_NAME=nvidia" | sudo tee -a /etc/profile
 #@@
@@ -65,7 +48,7 @@ yay -S plasma-wayland-session plasma-wayland-protocols
 <!-- 
 #%Q {"Desktop_environment":"kde"}
 #%%A:m {"kde_application": ["ark", "colord-kde", "dolphin", "dolphin-plugins", "ffmpegthumbs", "filelight", "gwenview", "kate", "kdekonnect", "kdf", "konsole", "ksystemlog", "kwalletmanager", "okular", "partitiomanager", "spectacle", "yakuake", "kcharselect", "khelpcenter", "kolourpaint", "kamoso", "kcalc", "kdenlive", "kdegraphics-thumbnailers"]}
-yay -S $(echo "{kde_application}" | sed 's/[][,"']//g')
+yay -S $(echo '{kde_application}' | sed 's/[][,"']//g')
 #@@
 #@
 -->
@@ -110,7 +93,7 @@ yay -S  ;    #讓dolphin可預覽pdf
 ### Player
 <!-- 
 #%A:m {"multimedia_player": ["mpv", "audacious", "smplayer", "smplayer-themes", "vlc"]}
-yay -S $(echo "{multimedia_player}" | sed 's/[][,"]//g')
+yay -S $(echo '{multimedia_player}' | sed 's/[][,"]//g')
 #@
 -->
 ```bash= 
@@ -122,7 +105,7 @@ yay -S vlc ;                         #支援很多解碼格式的播放器
 ### 創作
 <!-- 
 #%A:m {"multimedia_editor": ["darktable", "gimp", "krita", "blender", "inkscape", "kdenlive"]}
-yay -S $(echo "{multimedia_editor}" | sed 's/[][,"]//g')
+yay -S $(echo '{multimedia_editor}' | sed 's/[][,"]//g')
 #@
 -->
 ```bash=
@@ -137,7 +120,7 @@ yay -S kdenlive ;     #影片編輯
 ## 文書工作與筆記
 <!-- 
 #%A:m {"office_and_note": ["libreoffice-fresh-zh-tw", "xournalpp", "obsidian", "zotero-bin"]}
-yay -S $(echo "{office_and_note}" | sed 's/[][,"]//g')
+yay -S $(echo '{office_and_note}' | sed 's/[][,"]//g')
 #@
 -->
 ```bash=
@@ -151,7 +134,7 @@ yay -S zotero-bin ;                 #文獻管理軟體
 ### 網路瀏覽器
 <!-- 
 #%A:m {"web_browser": ["firefox", "brave-bin", "google-chrome"]}
-yay -S $(echo "{web_browser}" | sed 's/[][,"]//g')
+yay -S $(echo '{web_browser}' | sed 's/[][,"]//g')
 #@
 -->
 ```bash=
@@ -176,7 +159,7 @@ yay -S google-chrome ;
 ### 通訊軟體
 <!-- 
 #%A:m {"communication_software": ["discord", "slack-desktop"]}
-yay -S $(echo "{communication_software}" | sed 's/[][,"]//g')
+yay -S $(echo '{communication_software}' | sed 's/[][,"]//g')
 #@
 -->
 ```bash=
@@ -186,7 +169,7 @@ yay -S slack-desktop ;    #Slack中研院通訊軟體
 ### 遠端存儲
 <!-- 
 #%A:m {"remote_access": ["rclone", "rclone-browser", "sshfs", "anydesk-bin", "remmina"]}
-yay -S $(echo "{remote_access}" | sed 's/[][,"]//g')
+yay -S $(echo '{remote_access}' | sed 's/[][,"]//g')
 #@
 -->
 ```bash=
@@ -201,7 +184,7 @@ yay -S remmina ;           #remmina可作爲多種remmot protocol的前端
 ### 防火牆
 <!-- 
 #%A:m {"firewall": ["ufw"]}
-yay -S $(echo "{firewall}" | sed 's/[][,"]//g')
+yay -S $(echo '{firewall}' | sed 's/[][,"]//g')
 #@
 -->
 ```bash=
@@ -223,7 +206,7 @@ yay -S strongswan ;
 ### Coding工具
 <!-- 
 #%A:m {"coding_util": ["visual-studio-code-bin", "miniconda3"]}
-yay -S $(echo "{coding_util}" | sed 's/[][,"]//g')
+yay -S $(echo '{coding_util}' | sed 's/[][,"]//g')
 #@
 -->
 ```bash=
@@ -233,7 +216,7 @@ yay -S miniconda3 ;                #Conda程式libray環境管理器
 ### Terminal小工具
 <!-- 
 #%A:m {"terminal_util": ["fzf", "nnn", "plocate", "tmux", "zoxide"]}
-yay -S $(echo "{terminal_util}" | sed 's/[][,"]//g')
+yay -S $(echo '{terminal_util}' | sed 's/[][,"]//g')
 #@
 -->
 ```bash=
@@ -277,7 +260,7 @@ yay -S zinit               #zinit zsh的插件管理器
 ### 系統資訊
 <!-- 
 #%A:m {"system_information": ["htop", "nvtop", "neofetch", "s-tui", "i7z"]}
-yay -S $(echo "{system_information}" | sed 's/[][,"]//g')
+yay -S $(echo '{system_information}' | sed 's/[][,"]//g')
 #@
 -->
 ```bash=
@@ -291,7 +274,7 @@ yay -S i7z           #intel CPU監視器
 ### 硬體控制
 <!-- 
 #%A:m {"system_hardware": ["tlp", "thermald", "boostchanger-git", "solaar", "piper", "fprintd"]}
-yay -S $(echo "{system_hardware}" | sed 's/[][,"]//g')
+yay -S $(echo '{system_hardware}' | sed 's/[][,"]//g')
 #@
 -->
 ```bash=
@@ -321,9 +304,9 @@ yay -S piper ;     #自定Logitech滑鼠按鍵功能
 yay -S fprintd ;
 ```
 
-#### Nvdia的硬體控制
+#### Nvidia的硬體控制
 <!--
-#%%A {"GPU":["nvidia", "amd", "intel"]} #@@
+#%A {"GPU":["nvidia", "amd", "intel"]} #@
 #%Q:n {"GPU":"nvidia", "GUI_protocol":"x11"}
 #%%A:m {"system_hardware_nvidia": ["gwe", "opencl_and_cuda", "prime", "envycontrol"]} #@@
 #@
@@ -371,7 +354,7 @@ yay -S envycontrol
 ### 重要的基本Backend
 <!-- 
 #%A:m {"system_basick_backend": ["exfatprogs", "unzip", "unrar", "p7zip"]}
-yay -S $(echo "{system_basick_backend}" | sed 's/[][,"]//g')
+yay -S $(echo '{system_basick_backend}' | sed 's/[][,"]//g')
 #@
 -->
 ```bash=
@@ -384,7 +367,7 @@ yay -S p7zip ;         #for *.7z
 ### 系統其他
 <!-- 
 #%A:m {"system_else": ["downgrade"]}
-yay -S $(echo "{system_else}" | sed 's/[][,"]//g')
+yay -S $(echo '{system_else}' | sed 's/[][,"]//g')
 #@
 -->
 ```bash=
