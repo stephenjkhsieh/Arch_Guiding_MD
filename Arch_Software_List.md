@@ -48,7 +48,7 @@ yay -S plasma-wayland-session plasma-wayland-protocols
 <!-- 
 #%Q {"Desktop_environment":"kde"}
 #%%A:m {"kde_application": ["ark", "colord-kde", "dolphin", "dolphin-plugins", "ffmpegthumbs", "filelight", "gwenview", "kate", "kdekonnect", "kdf", "konsole", "ksystemlog", "kwalletmanager", "okular", "partitiomanager", "spectacle", "yakuake", "kcharselect", "khelpcenter", "kolourpaint", "kamoso", "kcalc", "kdenlive", "kdegraphics-thumbnailers"]}
-yay -S $(echo '{kde_application}' | sed 's/[][,"']//g')
+yay -S $(echo '{kde_application}' | sed 's/[][,"]//g')
 #@@
 #@
 -->
@@ -412,7 +412,9 @@ sudo systemctl enable libvirtd.socket ;
 #%Q {"else": "gaming"}
 yay -S steam ;     #Steam
 yay -S gamemode lib32-gamemode ;    #gamemode遊戲加速器
+#%%Q {"Desktop_environment":"kde"}
 yay -S plasma-gamemode-git ;    #gamemode啟動狀態indicator（for KDE）
+#@@
 #@
 
 # grub開機主題
