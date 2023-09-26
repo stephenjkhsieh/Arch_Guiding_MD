@@ -475,13 +475,13 @@ options i915 fastboot=1     #快速啟動
 <!--
 #%%Q:n {"GPU":"nvidia"}
 #%%%Q {"kernel":"linux"}
-#%%%%A:s {"GPU-driver":["nvidia"]} #@@@@
+#%%%%A:s {"GPU-driver":"nvidia"} #@@@@
 #@@@
 #%%%Q {"kernel":"linux-lts"}
-#%%%%A:s {"GPU-driver":["nvidia-lts"]} #@@@@
+#%%%%A:s {"GPU-driver":"nvidia-lts"} #@@@@
 #@@@
 #%%%Q {"kernel":"linux-[^(?:lts)]"}
-#%%%%A:s {"GPU-driver":["nvidia-dkms"]} #@@@@
+#%%%%A:s {"GPU-driver":"nvidia-dkms"} #@@@@
 #@@@
 #@@
 -->
@@ -494,7 +494,7 @@ zcat /proc/config.gz | less
 pacman -S {GPU-driver}    #GPU-driver：linux用nvidia，-lts用-lts，-zen用-dkms
 ```
 
-#### Nvdia 內核HOOKS設定
+#### Nvidia 內核HOOKS設定
 <!--
 #%%Q {"GPU":"nvidia"}
 sed -Ei 's/^(HOOKS)=\((.*) kms (.*)\)$/\1=(\2 \3)/1' /etc/mkinitcpio.conf
