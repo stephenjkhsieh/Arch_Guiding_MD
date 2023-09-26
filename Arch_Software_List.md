@@ -47,14 +47,14 @@ yay -S plasma-wayland-session plasma-wayland-protocols
 一些kde-applications好用軟體
 <!-- 
 #%Q {"Desktop_environment":"kde"}
-#%%A:m {"kde_application": ["ark", "colord-kde", "dolphin", "dolphin-plugins", "ffmpegthumbs", "filelight", "gwenview", "kate", "kdekonnect", "kdf", "konsole", "ksystemlog", "kwalletmanager", "okular", "partitiomanager", "spectacle", "yakuake", "kcharselect", "khelpcenter", "kolourpaint", "kamoso", "kcalc", "kdenlive", "kdegraphics-thumbnailers"]}
+#%%A:m {"kde_application": ["ark", "colord-kde", "dolphin", "dolphin-plugins", "ffmpegthumbs", "filelight", "gwenview", "kate", "kdeconnect", "kdf", "konsole", "ksystemlog", "kwalletmanager", "okular", "partitionmanager", "spectacle", "yakuake", "kcharselect", "khelpcenter", "kolourpaint", "kamoso", "kcalc", "kdenlive", "kdegraphics-thumbnailers"]}
 yay -S $(echo '{kde_application}' | sed 's/[][,"]//g')
 #@@
 #@
 -->
 ```bash=
 # 推薦rank1
-yay -S ark colord-kde dolphin dolphin-plugins ffmpegthumbs filelight gwenview kate kdekonnect kdf konsole ksystemlog kwalletmanager okular partitiomanager spectacle yakuake
+yay -S ark colord-kde dolphin dolphin-plugins ffmpegthumbs filelight gwenview kate kdeconnect kdf konsole ksystemlog kwalletmanager okular partitionmanager spectacle yakuake
 # 推薦rank2
 yay -S kcharselect khelpcenter kolourpaint
 # 推薦rank3
@@ -75,7 +75,7 @@ yay -S  ;    #讓dolphin可預覽pdf
 | 44   | kate                    | 1         | 文字編輯器               |
 | 53   | kcalc                   | 3         | 小計算機                 |
 | 54   | kcharselect             | 2         | 特殊符號選擇庫            |
-| 62   | kdekonnect              | 1         | 多裝置之間連線傳檔案       |
+| 62   | kdeconnect              | 1         | 多裝置之間連線傳檔案       |
 | 65   | kdenlive                | 3         | 影片剪輯工具              |
 | 72   | kdf                     | 1         | 硬碟使用檢視              |
 | 85   | khelpcenter             | 2         | KDE軟體說明文件           |
@@ -84,7 +84,7 @@ yay -S  ;    #讓dolphin可預覽pdf
 | 142  | ksystemlog              | 1         | 查看systemlog           |
 | 151  | kwalletmanager          | 1         | 電腦金鑰管理              |
 | 162  | okular                  | 1         | PDF閱讀軟體              |
-| 165  | partitiomanager         | 1         | 磁碟分割管理              |
+| 165  | partitionmanager        | 1         | 磁碟分割管理              |
 | 176  | spectacle               | 1         | 螢幕截圖軟體              |
 | 195  | yakuake                 | 1         | 下拉型終端機              |
 | ?    | kdegraphics-thumbnailers| 1         | 讓dolphin可預覽pdf       |
