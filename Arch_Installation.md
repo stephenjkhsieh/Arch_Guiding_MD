@@ -1,31 +1,12 @@
 # Arch installation
 ###### tags: `Linux` `Arch`
-
->Arch linux 可讀式安裝腳本,搭配Axel的installer實現自動安裝。
->針對installer的special token: #% 和 #@（%和@的數量代表第幾層）
->
->例子：
->#%[動作]:[特殊描述1]?,[特殊描述2]? [字典]
->[指令]
->#@
->
->#%：起始token
->[動作]：增A，刪D，改M，查Q
->[特殊描述]：
->　　A: m多選，s不詢問用戶，f強制複寫
->　　Q: n此層不執行，c需用戶確認才執行，or多條件
->[字典]：狀態以字典結構記錄
->[指令]：reader會執行[指令]的內容
->#@：終止token
->
->reader prepository:
->https://github.com/Axelisme/Arch_Setup.git
->[name=Stephen JK Hsieh][name=Axelisme]
+> Arch linux 可讀式腳本,可以搭配Axelisme的[MD_Executor](https://github.com/Axelisme/MD_Executor.git) 實現自動安裝與設定。  
+> Github: [Arch_Guiding_MD](https://github.com/stephenjkhsieh/Arch_Guiding_MD)  
+> [name=Stephen JK Hsieh][name=Axelisme]
 
 <!--
 #%A:f {"step":["Live USB","Live USB_chroot","TTY root","TTY user"]} #@
 -->
-
 ## Arch 安裝I  （Live USB）
 <!--
 #%Q:n {"step":"Live USB"}
@@ -276,6 +257,9 @@ passwd
 ```
 
 ### 安裝開機引導Grub
+<!--
+#%%A {"filesystem":["btrfs","ext4"]} #@@
+-->
 ```bash= #%%Q {}
 pacman -S grub efibootmgr           #Grub
 grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot
@@ -286,7 +270,9 @@ pacman -S grub-btrfs inotify-tools  #Grub-btrfs
 systemctl enable grub-btrfsd
 #@@@
 
+#%%%Q:c {}
 cp /etc/default/grub /etc/default/grub.backup
+#@@@
 ```
 <!--
 #%%Q {}
@@ -433,6 +419,7 @@ cp /etc/mkinitcpio.conf /etc/mkinitcpio.conf.backup
 ### btrfs相關
 #### btrfs 內核HOOKS設定
 <!--
+#%%A {"filesystem":["btrfs","ext4"]} #@@
 #%%Q {"filesystem":"btrfs"}
 sed -Ei 's/^(HOOKS)=\((.*)\)$/\1=(\2 grub-btrfs-overlayfs)/1' /etc/mkinitcpio.conf
 #@@
@@ -490,7 +477,7 @@ options i915 fastboot=1     #快速啟動
 #Check kernel config have CONFIG_DRM_SIMPLEDRM=y, linux-zen has checked
 zcat /proc/config.gz | less  
 ```
-```bash= #%%Q:n {"GPU":"nvidia"}
+```bash= #%%Q {"GPU":"nvidia"}
 pacman -S {GPU-driver}    #GPU-driver：linux用nvidia，-lts用-lts，-zen用-dkms
 ```
 
