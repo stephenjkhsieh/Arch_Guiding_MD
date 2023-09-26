@@ -24,4 +24,4 @@ Special token: #% 和 #@ 和 {}（%和@的數量代表第幾層，{}代表變數
 - #@：終止token
 
 ## Script executor
-[MD_Executor](https://github.com/Axelisme/Arch_Setup.git](https://github.com/Axelisme/MD_Executor.git)https://github.com/Axelisme/MD_Executor.git)
+[MD_Executor](https://github.com/Axelisme/MD_Executor.git)
