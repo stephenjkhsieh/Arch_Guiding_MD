@@ -416,8 +416,7 @@ cp /etc/mkinitcpio.conf /etc/mkinitcpio.conf.backup
 #@@
 -->
 
-### btrfs相關
-#### btrfs 內核HOOKS設定
+### btrfs 內核HOOKS設定
 <!--
 #%%A {"filesystem":["btrfs","ext4"]} #@@
 #%%Q {"filesystem":"btrfs"}
@@ -428,15 +427,6 @@ sed -Ei 's/^(HOOKS)=\((.*)\)$/\1=(\2 grub-btrfs-overlayfs)/1' /etc/mkinitcpio.co
 nano /etc/mkinitcpio.conf
 # HOOKS=(base ... modconf ... fsck grub-btrfs-overlayfs) # Grub-btrfs
 mkinitcpio -p {kernel}
-```
-
-#### 掛載外部btrfs硬碟的預設參數
-```bash= #%%Q:c {"filesystem":"btrfs"}
-echo '
-[defaults]
-btrfs_defaults=noatime,space_cache=v2,compress=zstd
-btrfs_allow=noatime,space_cache,compress,compress-force,datacow,nodatacow,datasum,nodatasum,degraded,device,discard,nodiscard,subvol,subvolid
-' | tee -a /etc/udisks2/mount_options.conf
 ```
 
 <!--
