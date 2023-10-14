@@ -229,6 +229,7 @@ pacman -S networkmanager dnsmasq net-tools iw wireless_tools       #網路管理
 pacman -S usbutils    #usb硬體管理
 pacman -S bash-completion      #bash自動補字
 pacman -S terminus-font        #tty字體
+pacman -S python git    #腳本必須
 ```
 
 ### 設定系統
@@ -498,7 +499,9 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 #### Nvidia 雜項
 <!--
-#%%A {"nvidia-power-save":["False", "True"]} #@@
+#%%Q {"GPU": "nvidia"}
+#%%%A {"nvidia-power-save":["False", "True"]} #@@@
+#@@
 -->
 ```bash= #%%Q:c {"GPU": "nvidia"} 
 # improve performanace
