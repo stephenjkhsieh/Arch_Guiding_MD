@@ -2,6 +2,7 @@
 ###### tags: `Linux` `Arch`
 > Arch linux 可讀式腳本,可以搭配Axelisme的[MD_Executor](https://github.com/Axelisme/MD_Executor.git) 實現自動安裝與設定。  
 > Github: [Arch_Guiding_MD](https://github.com/stephenjkhsieh/Arch_Guiding_MD)  
+> [Arch_Software_List](https://hackmd.io/49WeRWbhRd6ztbm49U3zwQ)
 > [name=Stephen JK Hsieh][name=Axelisme]
 
 <!--
@@ -22,16 +23,16 @@ setfont ter-132n    #大字體
 ### 連網路
 ```bash=
 #%%Q {}
-ping -c 5 8.8.8.8 #確認連線狀態
+ping -c 5 8.8.8.8    #確認連線狀態
 #@@
 
 #如果要連wifi
-iwctl    #進入iwctl界面
-device list    #列出網卡硬體
-station wlan0 scan    #掃描網卡wlan0底下偵測到的wifi
-station wlan0 get-networks    #顯示網卡wlan0底下偵測到的wifi
-station wlan0 connect "wifi"    #用網卡wlan0連接"wifi"
-exit    #離開iwctl界面
+iwctl                          #進入iwctl界面
+device list                    #列出網卡硬體
+station wlan0 scan             #掃描網卡wlan0底下偵測到的wifi
+station wlan0 get-networks     #顯示網卡wlan0底下偵測到的wifi
+station wlan0 connect "wifi"   #用網卡wlan0連接"wifi"
+exit                           #離開iwctl界面
 
 # 如果要連有線(static ip)
 ip link
@@ -64,7 +65,7 @@ lsblk
 lsblk    #顯示磁碟分區狀態
 
 #%%%Q:c {"Name_of_disk1":".+"}
-gdisk /dev/{Name_of_disk1}    #磁碟格式工具，x專家模式後，z刪除所有分區
+gdisk /dev/{Name_of_disk1}     #磁碟格式工具，x專家模式後，z刪除所有分區
 #@@@
 
 #%%%Q:c {"Name_of_disk1":".+"}
@@ -73,7 +74,7 @@ cfdisk /dev/{Name_of_disk1}    #圖形化分割磁碟
 ```
 <!--
 #%%%Q:c {"Name_of_disk2":".+"}
-gdisk /dev/{Name_of_disk2}    #磁碟格式工具，x專家模式後，z刪除所有分區
+gdisk /dev/{Name_of_disk2}     #磁碟格式工具，x專家模式後，z刪除所有分區
 #@@@
 
 #%%%Q:c {"Name_of_disk2":".+"}
@@ -102,7 +103,7 @@ mkfs.fat -F 32 /dev/{efi_partition_name}    #EFI分區格式化成Fat32
 #@@@
 
 #%%%Q:c {"swap_partition_name":".+"}
-mkswap /dev/{swap_partition_name}    #格式化swap
+mkswap /dev/{swap_partition_name}           #格式化swap
 #@@@
 
 # 如果用btrfs:
@@ -115,10 +116,10 @@ mkfs.btrfs -f /dev/{home_partition_name}    #格式化home分區成btrfs
 
 # 如果用ext4:
 #%%%Q:c {"filesystem":"ext4", "root_partition_name":".+"}
-mkfs.ext4 -f /dev/{root_partition_name}    #格式化root分區成ext4
+mkfs.ext4 -f /dev/{root_partition_name}     #格式化root分區成ext4
 #@@@
 #%%%Q:c {"filesystem":"ext4", "home_partition_name":".+"}
-mkfs.ext4 -f /dev/{home_partition_name}    #格式化home分區成ext4
+mkfs.ext4 -f /dev/{home_partition_name}     #格式化home分區成ext4
 #@@@
 ```
 <!--
@@ -134,11 +135,11 @@ mkfs.ext4 -f /dev/{home_partition_name}    #格式化home分區成ext4
 lsblk
 #掛載root
 #%%%Q {"filesystem":"btrfs", "root_partition_name":".+"}
-mkdir /mnt/btrfs_root  #創建資料夾
+mkdir /mnt/btrfs_root    #創建資料夾
 mkdir /mnt/root
 mount /dev/{root_partition_name} /mnt/btrfs_root
-btrfs subvolume create /mnt/btrfs_root/@  #建立子捲
-mount /dev/{root_partition_name} -o subvol=@ /mnt/root #掛載
+btrfs subvolume create /mnt/btrfs_root/@    #建立子捲
+mount /dev/{root_partition_name} -o subvol=@ /mnt/root    #掛載
 #@@@
 
 #掛載boot
@@ -196,7 +197,7 @@ echo "check it!"
 #%%A {"kernel":["linux", "linux-lts", "linux-zen"], "CPU":["intel", "amd"]}
 pacman -Syy    #更新資料庫
 pacstrap /mnt/root base linux-firmware {kernel}    #安裝基礎包
-pacstrap /mnt/root {CPU}-ucode   #安裝微碼
+pacstrap /mnt/root {CPU}-ucode    #安裝微碼
 #@@
 ```
 
@@ -219,24 +220,33 @@ nano /mnt/root/etc/fstab
 -->
 ### 改變root位置
 ```bash=
-arch-chroot /mnt/root          #把新裝的系統掛為root
+arch-chroot /mnt/root    #把新裝的系統掛為root
 ```
 
 ### 必要軟體
 ```bash= #%%Q {}
-pacman -S vi vim neovim nano          #基礎文字編輯
-pacman -S networkmanager dnsmasq net-tools iw wireless_tools       #網路管理
-pacman -S usbutils    #usb硬體管理
-pacman -S bash-completion      #bash自動補字
-pacman -S terminus-font        #tty字體
-pacman -S python git    #腳本必須
+pacman -S vi vim neovim nano        #基礎文字編輯
+pacman -S networkmanager dnsmasq    #網路管理
+pacman -S usbutils                  #usb硬體管理
+pacman -S bash-completion           #bash自動補字
+pacman -S terminus-font             #tty字體
 ```
 
 ### 設定系統
+<!--
+#%%Q {}
+(cd /usr/share/zoneinfo && ls -d */)
+#@@
+#%%A {"aria_name":".+"}
+(cd /usr/share/zoneinfo/{aria_name} && ls)
+#@@
+#%%A {"city_name":".+"} #@@
+-->
+
 ```bash= #%%Q {}
 #時區
-ln -sf /usr/share/zoneinfo/Asia/Taipei /etc/localtime    #設置時區
-hwclock --systohc                                        #同步時區
+ln -sf /usr/share/zoneinfo/{aria_name}/{city_name} /etc/localtime    #設置時區
+hwclock --systohc    #同步時區
 
 # 設定系統語言
 sed -i 's/^#\?\(en_US.UTF-8 UTF-8\)/\1/1' /etc/locale.gen
@@ -262,12 +272,12 @@ passwd
 #%%A {"filesystem":["btrfs","ext4"]} #@@
 -->
 ```bash= #%%Q {}
-pacman -S grub efibootmgr           #Grub
+pacman -S grub efibootmgr    #Grub
 grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot
 # if use grub-btrfs, it is recommend to read:
 # https://github.com/Antynea/grub-btrfs/blob/master/initramfs/readme.md
 #%%%Q {"filesystem":"btrfs"}
-pacman -S grub-btrfs inotify-tools  #Grub-btrfs
+pacman -S grub-btrfs inotify-tools    #Grub-btrfs
 systemctl enable grub-btrfsd
 #@@@
 
@@ -373,7 +383,7 @@ nano /etc/makepkg.conf    #設 MAKEFLAGS="-j$(nproc)"
 請參考 https://wiki.archlinux.org/title/mirrors
 mirror可從 https://archlinux.org/mirrorlist/ 獲得
 ```bash= #%%Q:c {}
-pacman -S pacman-contrib         #rankmirrors command
+pacman -S pacman-contrib    #rankmirrors command
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
 echo '
 ## Taiwan
@@ -390,19 +400,19 @@ pacman -Syyu    #更新pacman的mirrorlist
 
 ### 重要軟體
 ```bash= #%%A {"kernel":["linux", "linux-lts", "linux-zen"], "CPU":["intel", "amd"]}
-pacman -S sudo                         # 管理者權限
-pacman -S {kernel}-headers base-devel  #linux標頭檔、編譯基礎工具
-pacman -S mesa                         #顯卡渲染驅動（intel & AMD）
-pacman -S lm_sensors                   #設備狀況監控
-pacman -S fakeroot                     #fakeroot
-pacman -S make gcc                     #編譯C相關
-pacman -S python python-pip            #Python相關
-pacman -S bluez bluez-utils            #藍牙
-systemctl enable bluetooth.service     #啓動藍牙服務
-pacman -S alsa-utils pipewire pipewire-pulse pipewire-alsa pipewire-jack #音效
-pacman -S sof-firmware                 #新型音效卡卡driver
+pacman -S sudo                               # 管理者權限
+pacman -S {kernel}-headers base-devel        #linux標頭檔、編譯基礎工具
+pacman -S mesa                               #顯卡渲染驅動（intel & AMD）
+pacman -S lm_sensors                         #設備狀況監控
+pacman -S fakeroot                           #fakeroot
+pacman -S make gcc                           #編譯C相關
+pacman -S python python-pip                  #Python相關
+pacman -S bluez bluez-utils                  #藍牙
+systemctl enable bluetooth.service           #啓動藍牙服務
+pacman -S alsa-utils pipewire pipewire-pulse pipewire-alsa pipewire-jack wireplumber    #音效
+pacman -S sof-firmware                       #新型音效卡卡driver
 pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji    #字體
-pacman -S wget openssh git man         #其他 （wget URL下載、ssh通訊協定、git、man顯示指令說明）
+pacman -S wget openssh git man               #其他（wget URL下載、ssh通訊協定、git、man顯示指令說明）
 
 #%%%Q {"CPU":"intel"}
 pacman -S intel-media-driver vulkan-intel    #Intel GPU硬件視頻加速、3D渲染加速（只適用Intel）
@@ -518,7 +528,7 @@ options nvidia NVreg_DynamicPowerManagement=0x02
 #@@@
 
 # 顯卡pacman Hook設定
-sed -i 's/^#HooDir/HooDir/1' /etc/pacman.conf  #取消註解HooDir
+sed -i 's/^#HooDir/HooDir/1' /etc/pacman.conf    #取消註解HooDir
 mkdir /etc/pacman.d/hooks/
 #請確保Target是自己裝的nvidia版本（如nvidia或nvidia-lts...之類）
 echo -e "
