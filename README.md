@@ -3,13 +3,15 @@
 
 Arch linux 可讀式安裝腳本,可以搭配Axelisme的MD_Executor實現自動安裝與設定。
 ## MD note
-- [Arch_Installation](https://hackmd.io/WA1Lslm3RnG1TC6sQoa7mQ?view)
-- [Arch_Software_List](https://hackmd.io/49WeRWbhRd6ztbm49U3zwQ?view)
+Install Arch Linux distro from scratch: <br/>
+[Arch_Installation](https://hackmd.io/WA1Lslm3RnG1TC6sQoa7mQ?view) <br/>
+Install some useful software of Arch Linux: <br/>
+[Arch_Software_List](https://hackmd.io/49WeRWbhRd6ztbm49U3zwQ?view) <br/>
 
 ## Script executor
 [MD_Executor](https://github.com/Axelisme/MD_Executor.git)
 ### Run
-run the executor like:
+run the executor like: 
 ```bash=
 python md_executor.py -f $path_to_install_guide [-d $dict_path] [--dry-run]
 ```
@@ -25,6 +27,12 @@ Type one id number to select the choice with choice id. Default choice will be i
 
 #### multiple choice question (one or more selected choice)
 Type one or more id number saperate by space to select the choice with choice id, which like `0 2 3`. Default choice will be all choice, if enter without any input; to select none of the candidate please input `-1`.
+
+#### blank filling question
+Type the string into the prompted attribute.
+
+#### command confirming
+Type `Y/n` to decide to run the promped command. Default will be yes, if enter without any input.
 
 ### Grammar
 ```bash=
