@@ -2,6 +2,7 @@
 ###### tags: `Linux` `Arch`
 > Arch linux 可讀式腳本,可以搭配Axelisme的[MD_Executor](https://github.com/Axelisme/MD_Executor.git) 實現自動安裝與設定。  
 > Github: [Arch_Guiding_MD](https://github.com/stephenjkhsieh/Arch_Guiding_MD)  
+> [Arch_Installation](https://hackmd.io/WA1Lslm3RnG1TC6sQoa7mQ?both)
 > [name=Stephen JK Hsieh][name=Axelisme]
 
 ## GUI desktop environment (DE) 相關
@@ -98,7 +99,8 @@ yay -S $(echo '{multimedia_player}' | sed 's/[][,"]//g')
 -->
 ```bash= 
 yay -S mpv ;                         #影片播放器
-yay -S audacious  ;                  #音樂播放器
+yay -S audacious ;                   #音樂播放器
+yay -S yt-dlp ;                      #mpv對接youtube
 yay -S smplayer smplayer-themes ;    #有更多界面的mpv與smplayer的主題
 yay -S vlc ;                         #支援很多解碼格式的播放器
 ```
@@ -412,9 +414,6 @@ sudo systemctl enable libvirtd.socket ;
 #%Q {"else": "gaming"}
 yay -S steam ;     #Steam
 yay -S gamemode lib32-gamemode ;    #gamemode遊戲加速器
-#%%Q {"Desktop_environment":"kde"}
-yay -S plasma-gamemode-git ;    #gamemode啟動狀態indicator（for KDE）
-#@@
 #@
 
 # grub開機主題
@@ -435,6 +434,9 @@ yay -S barrier ;     #多裝置模擬成多螢幕
 # 印表機
 yay -S cups cups-pdf ;
 yay -S print-manager ;
+# gamemode啟動狀態indicator（for KDE）
+yay -S plasma-gamemode-git ;   
+
 ```
 #### i3 (X11的平鋪式DE)
 ```bash=
@@ -471,4 +473,13 @@ yay -S pavucontrol
 #### sway (Wayland的平鋪式桌面)
 ```bash=
 yay -S sway
+```
+
+#### 掛載外部btrfs硬碟的預設參數
+```bash=
+echo '
+[defaults]
+btrfs_defaults=noatime,space_cache=v2,compress=zstd
+btrfs_allow=noatime,space_cache,compress,compress-force,datacow,nodatacow,datasum,nodatasum,degraded,device,discard,nodiscard,subvol,subvolid
+' | tee -a /etc/udisks2/mount_options.conf
 ```
