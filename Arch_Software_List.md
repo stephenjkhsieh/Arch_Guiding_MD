@@ -39,7 +39,7 @@ sudo systemctl enable sddm.service    #啟動sddm DE登錄引導
 ### Desktop environment
 #### KDE (類Windows的桌面)
 ```bash= #%Q {"Desktop_environment":"kde"}
-yay -S plasma    #kde 桌面(repository choose noto-font)
+yay -S plasma packagekit-qt5    #kde 桌面(repository choose noto-font)
 # if use Wayland GUI protocol
 #%%Q {"GUI_protocol":"wayland"}
 yay -S plasma-wayland-session plasma-wayland-protocols 
@@ -48,7 +48,7 @@ yay -S plasma-wayland-session plasma-wayland-protocols
 一些kde-applications好用軟體
 <!-- 
 #%Q {"Desktop_environment":"kde"}
-#%%A:m {"kde_application": ["ark", "colord-kde", "dolphin", "dolphin-plugins", "ffmpegthumbs", "filelight", "gwenview", "kate", "kdeconnect", "kdf", "konsole", "ksystemlog", "kwalletmanager", "okular", "partitionmanager", "spectacle", "yakuake", "kcharselect", "khelpcenter", "kolourpaint", "kamoso", "kcalc", "kdenlive", "kdegraphics-thumbnailers"]}
+#%%A:m {"kde_application": ["ark", "colord-kde", "dolphin", "dolphin-plugins", "ffmpegthumbs", "filelight", "gwenview", "kate", "kdeconnect", "kdf", "konsole", "ksystemlog", "kwalletmanager", "okular", "partitionmanager", "spectacle", "yakuake", "kcharselect", "khelpcenter", "kolourpaint", "kamoso", "kcalc"]}
 yay -S $(echo '{kde_application}' | sed 's/[][,"]//g')
 #@@
 #@
@@ -59,9 +59,8 @@ yay -S ark colord-kde dolphin dolphin-plugins ffmpegthumbs filelight gwenview ka
 # 推薦rank2
 yay -S kcharselect khelpcenter kolourpaint
 # 推薦rank3
-yay -S kamoso kcalc kdenlive kdegraphics-thumbnailers
+yay -S kamoso kcalc
 ```
-yay -S  ;    #讓dolphin可預覽pdf
 
 | 編號  | 名稱                     | 推薦度（🡫）| 描述                        |
 | ---- | ----------------------- | --------- | -----------------------|
@@ -88,19 +87,18 @@ yay -S  ;    #讓dolphin可預覽pdf
 | 165  | partitionmanager        | 1         | 磁碟分割管理              |
 | 176  | spectacle               | 1         | 螢幕截圖軟體              |
 | 195  | yakuake                 | 1         | 下拉型終端機              |
-| ?    | kdegraphics-thumbnailers| 1         | 讓dolphin可預覽pdf       |
 
 ## 影音與圖像媒體
 ### Player
 <!-- 
-#%A:m {"multimedia_player": ["mpv", "audacious", "smplayer", "smplayer-themes", "vlc"]}
+#%A:m {"multimedia_player": ["mpv", "yt-dlp", "audacious", "smplayer", "smplayer-themes", "vlc"]}
 yay -S $(echo '{multimedia_player}' | sed 's/[][,"]//g')
 #@
 -->
 ```bash= 
 yay -S mpv ;                         #影片播放器
-yay -S audacious ;                   #音樂播放器
 yay -S yt-dlp ;                      #mpv對接youtube
+yay -S audacious ;                   #音樂播放器
 yay -S smplayer smplayer-themes ;    #有更多界面的mpv與smplayer的主題
 yay -S vlc ;                         #支援很多解碼格式的播放器
 ```
@@ -141,8 +139,8 @@ yay -S $(echo '{web_browser}' | sed 's/[][,"]//g')
 -->
 ```bash=
 # firefox
-#%Q {"web_browser":"firefox"}
 yay -S firefox ;
+#%Q {"web_browser":"firefox"}
 echo '
 if [ "$XDG_SESSION_TYPE" == "wayland" ]; then
     export QT_QPA_PLATFORM="wayland;xcb"
@@ -207,12 +205,12 @@ yay -S strongswan ;
 ## 程式開發與Terminal工具
 ### Coding工具
 <!-- 
-#%A:m {"coding_util": ["code", "miniconda3"]}
+#%A:m {"coding_util": ["visual-studio-code-bin", "miniconda3"]}
 yay -S $(echo '{coding_util}' | sed 's/[][,"]//g')
 #@
 -->
 ```bash=
-yay -S code ;    #VScode程式編輯器
+yay -S visual-studio-code-bin ;    #VScode程式編輯器
 yay -S miniconda3 ;                #Conda程式libray環境管理器
 ```
 ### Terminal小工具
