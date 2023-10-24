@@ -139,8 +139,8 @@ yay -S $(echo '{web_browser}' | sed 's/[][,"]//g')
 -->
 ```bash=
 # firefox
-yay -S firefox ;
 #%Q {"web_browser":"firefox"}
+yay -S firefox ;
 echo '
 if [ "$XDG_SESSION_TYPE" == "wayland" ]; then
     export QT_QPA_PLATFORM="wayland;xcb"
