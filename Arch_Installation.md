@@ -237,15 +237,15 @@ pacman -S terminus-font             #tty字體
 #%%Q {}
 (cd /usr/share/zoneinfo && ls -d */)
 #@@
-#%%A {"aria_name":".+"}
-(cd /usr/share/zoneinfo/{aria_name} && ls)
+#%%A {"area_name":".+"}
+(cd /usr/share/zoneinfo/{area_name} && ls)
 #@@
 #%%A {"city_name":".+"} #@@
 -->
 
 ```bash= #%%Q {}
 #時區
-ln -sf /usr/share/zoneinfo/{aria_name}/{city_name} /etc/localtime    #設置時區
+ln -sf /usr/share/zoneinfo/{area_name}/{city_name} /etc/localtime    #設置時區
 hwclock --systohc    #同步時區
 
 # 設定系統語言
