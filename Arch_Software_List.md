@@ -207,12 +207,12 @@ yay -S strongswan ;
 ## 程式開發與Terminal工具
 ### Coding工具
 <!-- 
-#%A:m {"coding_util": ["visual-studio-code-bin", "miniconda3"]}
+#%A:m {"coding_util": ["code", "miniconda3"]}
 yay -S $(echo '{coding_util}' | sed 's/[][,"]//g')
 #@
 -->
 ```bash=
-yay -S visual-studio-code-bin ;    #VScode程式編輯器
+yay -S code ;    #VScode程式編輯器
 yay -S miniconda3 ;                #Conda程式libray環境管理器
 ```
 ### Terminal小工具
