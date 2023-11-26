@@ -192,13 +192,17 @@ yay -S ufw ;    #ufw功能簡單的防火牆
 ```
 ### 其他網路細節
 <!--
-#%A:m {"network_else": ["l2tp_vpn"]} #@
+#%A:m {"network_else": ["l2tp_vpn", "openvpn"]} #@
 -->
 ```bash=
 # l2tp VPN
 #%Q {"network_else": "l2tp_vpn"}
 yay -S networkmanager-l2tp ;
 yay -S strongswan ;
+#@
+# openvpn
+#%Q {"network_else": "openvpn"}
+yay -S openvpn
 #@
 ```
 
@@ -426,6 +430,8 @@ rm -rf ~/grub2-themes ;
 
 ## 實驗中
 ```bash=
+yay -S hunspell-en_us hunspell-en_gb    #libreoffice 拼字檢查
+
 yay -S gromit-mpx    #Gromit-mpx (用滑鼠在桌面畫畫)
 yay -S barrier ;     #多裝置模擬成多螢幕
 
