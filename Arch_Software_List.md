@@ -117,14 +117,27 @@ yay -S inkscape ;     #向量圖（illustrator）
 yay -S kdenlive ;     #影片編輯
 ```
 
+### 工具
+<!-- 
+#%A:m {"multimedia_tool": ["qpwgraph", "kid3", "sacd-extract"]}
+yay -S $(echo '{multimedia_tool}' | sed 's/[][,"]//g')
+#@
+-->
+```bash=
+yay -S qpwgraph ;        #PipeWire音訊流GUI（自由控制音源輸出）
+yay -S kid3 ;            #音檔標籤編輯
+yay -S sacd-extract ;    #iso音檔轉dsd/dsf
+```
+
 ## 文書工作與筆記
 <!-- 
-#%A:m {"office_and_note": ["libreoffice-fresh-zh-tw", "xournalpp", "obsidian", "zotero-bin"]}
+#%A:m {"office_and_note": ["libreoffice-fresh-zh-tw", "hunspell-en_us", "xournalpp", "obsidian", "zotero-bin"]}
 yay -S $(echo '{office_and_note}' | sed 's/[][,"]//g')
 #@
 -->
 ```bash=
 yay -S libreoffice-fresh-zh-tw ;    #office
+yay -S hunspell-en_us ;             #英文拼寫校正後端
 yay -S xournalpp ;                  #手寫筆記
 yay -S obsidian ;                   #MD筆記
 yay -S zotero-bin ;                 #文獻管理軟體
@@ -183,39 +196,51 @@ yay -S remmina ;           #remmina可作爲多種remmot protocol的前端
 ```
 ### 防火牆
 <!-- 
-#%A:m {"firewall": ["ufw"]}
-yay -S $(echo '{firewall}' | sed 's/[][,"]//g')
-#@
+#%A:m {"firewall": ["ufw"]} #@
 -->
 ```bash=
+#%Q {"firewall":"ufw"}
 yay -S ufw ;    #ufw功能簡單的防火牆
+
+#ufw防火牆允許KDEconnect的Port
+#%%Q {"kde_application":"kdeconnect"}
+sudo ufw allow 1714:1764/udp
+sudo ufw allow 1714:1764/tcp
+#@@
+sudo ufw reload
+sudo ufw enable
+#@
 ```
 ### 其他網路細節
 <!--
-#%A:m {"network_else": ["l2tp_vpn", "openvpn"]} #@
+#%A:m {"network_else": ["l2tp_vpn", "openvpn", "protonvpn"]} #@
 -->
 ```bash=
 # l2tp VPN
 #%Q {"network_else": "l2tp_vpn"}
-yay -S networkmanager-l2tp ;
-yay -S strongswan ;
+yay -S networkmanager-l2tp strongswan ;
 #@
 # openvpn
 #%Q {"network_else": "openvpn"}
 yay -S openvpn
+#@
+# protonvpn
+#%Q {"network_else": "protonvpn"}
+yay -S openvpn network-manager-applet protonvpn
 #@
 ```
 
 ## 程式開發與Terminal工具
 ### Coding工具
 <!-- 
-#%A:m {"coding_util": ["visual-studio-code-bin", "miniconda3"]}
+#%A:m {"coding_util": ["visual-studio-code-bin", "miniconda3", "ttf-fira-code"]}
 yay -S $(echo '{coding_util}' | sed 's/[][,"]//g')
 #@
 -->
 ```bash=
 yay -S visual-studio-code-bin ;    #VScode程式編輯器
 yay -S miniconda3 ;                #Conda程式libray環境管理器
+yay -S ttf-fira-code ;             #好用的Coding字體
 ```
 ### Terminal小工具
 <!-- 
@@ -253,10 +278,12 @@ yay -S zoxide ;       #Zoxide智能切換目錄(取代cd指令)
 -->
 ```bash=
 #%Q {"better_shell": "zsh"}
-yay -S zsh ;               #zsh本體
-yay -S ttf-meslo-nerd ;    #安裝powerlevel10k字體
-fc-cache -f -v ;           #初始化字體快取
-yay -S zinit               #zinit zsh的插件管理器
+yay -S zsh ;                #zsh本體
+yay -S zsh-completions ;    #zsh指令自動補齊
+yay -S ttf-meslo-nerd ;     #安裝powerlevel10k字體
+yay -S ttf-fira-code ;
+fc-cache -f -v ;            #初始化字體快取
+yay -S zinit                #zinit zsh的插件管理器
 #@
 ```
 
@@ -430,16 +457,15 @@ rm -rf ~/grub2-themes ;
 
 ## 實驗中
 ```bash=
-yay -S hunspell-en_us hunspell-en_gb    #libreoffice 拼字檢查
-
 yay -S gromit-mpx    #Gromit-mpx (用滑鼠在桌面畫畫)
 yay -S barrier ;     #多裝置模擬成多螢幕
+#ufw防火牆允許Barrier的Port
+sudo ufw allow 24800
+sudo ufw reload
 
 # 印表機
 yay -S cups cups-pdf ;
 yay -S print-manager ;
-# gamemode啟動狀態indicator（for KDE）
-yay -S plasma-gamemode-git ;   
 
 ```
 #### i3 (X11的平鋪式DE)
